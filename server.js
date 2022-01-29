@@ -1,0 +1,17 @@
+const express = require("express");
+const server = express();
+const cors = require("cors");
+require("dotenv").config({ path: "./config.env" });
+const portNumber = process.env.PORT || 5000;
+
+server.use(cors());
+server.use(express.json());
+server.use(require("./routes/customer"));
+
+const databaseConnection = require("./connection");
+ 
+server.listen(portNumber, () => { databaseConnection.connectToServer(function (e) {
+        if (e) console.error(e);
+    });
+    console.log(`Server is running on port: ${portNumber}`);
+});
