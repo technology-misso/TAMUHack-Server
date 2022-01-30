@@ -41,7 +41,6 @@ aiRoute.post(
     } catch (e) {
       return res.json({ message: e });
     }
-    // return res.json({ data: "viet" });
   }
 );
 
