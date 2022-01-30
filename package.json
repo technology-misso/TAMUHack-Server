@@ -19,9 +19,9 @@
   },
   "homepage": "https://github.com/EricNguyen1124/TAMUHack-Server#readme",
   "dependencies": {
-    "axios": "^0.25.0",
     "@google-cloud/documentai": "^3.2.1",
     "@google-cloud/storage": "^5.18.1",
+    "axios": "^0.25.0",
     "cors": "^2.8.5",
     "dotenv": "^14.3.2",
     "express": "^4.17.2",
