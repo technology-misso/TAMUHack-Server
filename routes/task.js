@@ -1,5 +1,5 @@
 const express = require("express");
-
+const {checkAddress} = require("../utils/aiOutputParser")
 
 const customerRouter = express.Router();
 const databaseObject = require("../connection");
@@ -16,7 +16,7 @@ customerRouter.route("/tasks").get(function(request,result) {
     })
 });
 
-customerRouter.route("/tasks/update/:id").post(function(req,response) {
+customerRouter.route("/tasks/update/:id").post(async function(req,response) {
     console.log("hello?");
     let dbConnectToCollection = databaseObject.getDb();
     let idQuery = { _id: ObjectId( req.params.id )};
@@ -25,6 +25,9 @@ customerRouter.route("/tasks/update/:id").post(function(req,response) {
     [
         { $set: {done: { $not: "$done"}}}
     ])
+    const fuck = await checkAddress()
+    console.log({fuck})
 });
+
 
 module.exports = customerRouter;
