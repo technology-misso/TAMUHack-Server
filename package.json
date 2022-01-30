@@ -18,9 +18,11 @@
   },
   "homepage": "https://github.com/EricNguyen1124/TAMUHack-Server#readme",
   "dependencies": {
+    "axios": "^0.25.0",
     "cors": "^2.8.5",
     "dotenv": "^14.3.2",
     "express": "^4.17.2",
-    "mongodb": "^4.3.1"
+    "mongodb": "^4.3.1",
+    "openai": "^2.0.2"
   }
 }
