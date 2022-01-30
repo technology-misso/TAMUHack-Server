@@ -10,7 +10,7 @@ server.use(express.static("public"));
 server.use(express.json());
 server.use;
 server.use(require("./routes/customer"));
-
+server.use("/documents", require("./routes/ai"));
 server.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(

@@ -1,44 +1,48 @@
 const express = require("express");
-const { download } = require("express/lib/response");
 const multer = require("multer");
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "./google-apis/output");
+    cb(null, "./public");
   },
   filename: function (req, file, cb) {
     console.log("Original file received", file);
     const ext = file.mimetype.split("/")[1];
-    cb(null, `${Date.now()}-${file.originalname}`);
+    cb(null, `${file.originalname}`);
   },
 });
 const {
   downloadFile,
   processDocument,
   uploadFile,
-} = require("./ai_utils/utils");
+} = require("../ai_utils/utils");
 const host = "http://localhost:5000";
 const aiRoute = express.Router();
 
 aiRoute.get("/download_document/:fileName", async (req, res) => {
   const fileName = req.params.fileName;
-
   try {
-    const fileName = await downloadFile(fileName);
-    // return the public link
-    return `host/${fileName}`;
+    const file = await downloadFile(fileName);
+    res.json({ data: `${host}/${file}` });
   } catch (e) {
     console.log(e);
   }
 });
 
-aiRoute.post("/upload_documnet/:fileName/:customerId", async (req, res) => {
-  const { fileName, customerId } = req.params;
-
-  try {
-    const fileName = await uploadFile(fileName);
-    // return the public link
-    // return `host/${fileName}`;
-  } catch (e) {
-    console.log(e);
+const upload = multer({ storage: storage });
+aiRoute.post(
+  "/upload_document/:customerId",
+  upload.single("file"),
+  async (req, res) => {
+    const { fileName, customerId } = req.params;
+    const file = req.file;
+    try {
+      const result = await uploadFile(file.originalname, customerId);
+      return res.json({ data: "upload file done!" });
+    } catch (e) {
+      return res.json({ message: e });
+    }
+    // return res.json({ data: "viet" });
   }
-});
+);
+
+module.exports = aiRoute;

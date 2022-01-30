@@ -1,18 +1,22 @@
-const keyFilename = "./client.json";
+const keyFilename = "credentials/client.json";
 const projectId = "youtubeapi-testing-321117";
-
+const { DocumentProcessorServiceClient } =
+  require("@google-cloud/documentai").v1;
 const { Storage } = require("@google-cloud/storage");
 const bucketName = "my--first-test-images";
 
 const storage = new Storage({ projectId, keyFilename });
 
-async function uploadFile(filePath) {
-  const destFileName = "upload_test_file.PNG";
-  await storage.bucket(bucketName).upload(filePath, {
-    destination: destFileName,
-  });
-
-  console.log(`${filePath} uploaded to ${bucketName}`);
+async function uploadFile(fileName, customerId) {
+  const path = `public/${fileName}`;
+  try {
+    const destFileName = `${customerId}-${fileName}`;
+    await storage.bucket(bucketName).upload(path, {
+      destination: destFileName,
+    });
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 // uploadFile(filePath);
